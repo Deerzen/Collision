@@ -20,11 +20,11 @@ colors = {
         "black": (29, 24, 24)
         }
 
-confirm = pygame.mixer.Sound(os.path.join(sys.path[0], "impact.wav"))
-speed_up = pygame.mixer.Sound(os.path.join(sys.path[0], "MENU A_Select.wav"))
-speed_down = pygame.mixer.Sound(os.path.join(sys.path[0], "MENU A - Back.wav"))
-points = pygame.mixer.Sound(os.path.join(sys.path[0], "MENU_Pick.wav"))
-lose = pygame.mixer.Sound(os.path.join(sys.path[0], "MENU B_Back.wav"))
+confirm = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/impact.wav"))
+speed_up = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU A_Select.wav"))
+speed_down = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU A - Back.wav"))
+points = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU_Pick.wav"))
+lose = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU B_Back.wav"))
 
 window = pygame.display.set_mode((window_size[0], window_size[1]))
 pygame.display.set_caption("Collision")
@@ -97,7 +97,7 @@ def game_menu():
     velocity = [4, 4]
     posm_x = 400
     posm_y = 300
-    pygame.mixer.music.load(os.path.join(sys.path[0],"menu.ogg"))
+    pygame.mixer.music.load(os.path.join(sys.path[0],"Sound/menu.ogg"))
     pygame.mixer.music.play(-1)
 
     global score
@@ -169,7 +169,7 @@ def game_loop(multiplayer_mode):
     if multiplayer_mode:
         player2_stats = [window_size[0]/4, window_size[1]/3, 3]
 
-    pygame.mixer.music.load(os.path.join(sys.path[0],"theme.ogg"))
+    pygame.mixer.music.load(os.path.join(sys.path[0],"Sound/theme.ogg"))
     pygame.mixer.music.play(-1)
 
     #game-loop
@@ -382,7 +382,7 @@ def game_loop(multiplayer_mode):
 def you_lose(is_multiplayer):
     global score
     ending = True
-    pygame.mixer.music.load(os.path.join(sys.path[0],"ulose.ogg"))
+    pygame.mixer.music.load(os.path.join(sys.path[0],"Sound/ulose.ogg"))
     pygame.mixer.music.play(-1)
 
     while ending:
@@ -415,4 +415,5 @@ def you_lose(is_multiplayer):
         clock.tick(15)
 
 
-game_menu()
+if __name__ == '__main__':
+    game_menu()
