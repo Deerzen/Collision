@@ -43,8 +43,13 @@ def text_objects(text, font):
     return textSurface, textSurface.get_rect()
 
 
+def shuffle_location() -> list:
+    new_location = [random.randint(50, 750), random.randint(50, 550)]
+    return new_location
+
+
 # logic for player movement
-def player_movement(player, stats, block_size):
+def player_movement(player, stats, block_size) -> list:
     current_stats = stats
     controls = {
         1: [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN],
@@ -213,16 +218,6 @@ def game_loop(multiplayer_mode):
                 sys.exit()
                 quit()
 
-        for i in block_locations:
-            block_locations[i][0] += velocities[i][0]
-            block_locations[i][1] += velocities[i][1]
-            if block_locations[i][0] + \
-                    block_size > window_size[0] or block_locations[i][0] < 0:
-                velocities[i][0] = -velocities[i][0]
-            if block_locations[i][1] + \
-                    block_size > window_size[1] or block_locations[i][1] < 0:
-                velocities[i][1] = -velocities[i][1]
-
         player1_stats = player_movement(1, player1_stats, block_size)
         if multiplayer_mode:
             player2_stats = player_movement(2, player2_stats, block_size)
@@ -242,6 +237,15 @@ def game_loop(multiplayer_mode):
             block = pygame.draw.rect(
                 window, colors["white"], [
                     block_locations[i][0], block_locations[i][1], block_size, block_size])
+
+            block_locations[i][0] += velocities[i][0]
+            block_locations[i][1] += velocities[i][1]
+            if block_locations[i][0] + \
+                    block_size > window_size[0] or block_locations[i][0] < 0:
+                velocities[i][0] = -velocities[i][0]
+            if block_locations[i][1] + \
+                    block_size > window_size[1] or block_locations[i][1] < 0:
+                velocities[i][1] = -velocities[i][1]
 
             if not multiplayer_mode:
                 if playa.colliderect(block):
@@ -273,126 +277,57 @@ def game_loop(multiplayer_mode):
                         you_lose(multiplayer_mode)
                         return score
 
-        p1 = pygame.draw.rect(
-            window, colors["green"], [
-                point_locations[0][0], point_locations[0][1], block_size / 2, block_size / 2])
-        p2 = pygame.draw.rect(
-            window, colors["green"], [
-                point_locations[1][0], point_locations[1][1], block_size / 2, block_size / 2])
-        p3 = pygame.draw.rect(
-            window, colors["green"], [
-                point_locations[2][0], point_locations[2][1], block_size / 2, block_size / 2])
-        p4 = pygame.draw.rect(
-            window, colors["green"], [
-                point_locations[3][0], point_locations[3][1], block_size / 2, block_size / 2])
+        for i in point_locations:
+            point = pygame.draw.rect(
+                window, colors["green"], [
+                    point_locations[i][0], point_locations[i][1], block_size / 2, block_size / 2])
 
-        i1 = pygame.draw.rect(
-            window, colors["purple"], [
-                item_locations[0][0], item_locations[0][1], block_size / 2, block_size / 2])
-        i2 = pygame.draw.rect(
-            window, colors["purple"], [
-                item_locations[1][0], item_locations[1][1], block_size / 2, block_size / 2])
-
-        # update score
-        if playa.colliderect(p1):
             if not multiplayer_mode:
-                score += 5
+                if playa.colliderect(point):
+                    score += 5
+                    point_locations[i] = shuffle_location()
+                    points.play()
             else:
-                score1 += 5
-            point_locations[0][0] = random.randint(50, 750)
-            point_locations[0][1] = random.randint(50, 550)
-            points.play()
-        if playa.colliderect(p2):
-            if not multiplayer_mode:
-                score += 5
-            else:
-                score1 += 5
-            point_locations[1][0] = random.randint(50, 750)
-            point_locations[1][1] = random.randint(50, 550)
-            points.play()
-        if playa.colliderect(p3):
-            if not multiplayer_mode:
-                score += 5
-            else:
-                score1 += 5
-            point_locations[2][0] = random.randint(50, 750)
-            point_locations[2][1] = random.randint(50, 550)
-            points.play()
-        if playa.colliderect(p4):
-            if not multiplayer_mode:
-                score += 5
-            else:
-                score1 += 5
-            point_locations[3][0] = random.randint(50, 750)
-            point_locations[3][1] = random.randint(50, 550)
-            points.play()
+                if playa.colliderect(point):
+                    score1 += 5
+                    point_locations[i] = shuffle_location()
+                    points.play()
+                if playa1.colliderect(point):
+                    score2 += 5
+                    point_locations[i] = shuffle_location()
+                    points.play()
 
-        # update score 2
-        if multiplayer_mode:
-            if playa1.colliderect(p1):
-                score2 += 5
-                point_locations[0][0] = random.randint(50, 750)
-                point_locations[0][1] = random.randint(50, 550)
-                points.play()
-            if playa1.colliderect(p2):
-                score2 += 5
-                point_locations[1][0] = random.randint(50, 750)
-                point_locations[1][1] = random.randint(50, 550)
-                points.play()
-            if playa1.colliderect(p3):
-                score2 += 5
-                point_locations[2][0] = random.randint(50, 750)
-                point_locations[2][1] = random.randint(50, 550)
-                points.play()
-            if playa1.colliderect(p4):
-                score2 += 5
-                point_locations[3][0] = random.randint(50, 750)
-                point_locations[3][1] = random.randint(50, 550)
-                points.play()
+        for i in item_locations:
+            item = pygame.draw.rect(
+                window, colors["purple"], [
+                    item_locations[i][0], item_locations[i][1], block_size / 2, block_size / 2])
 
-        # item behavior
-        if playa.colliderect(i1):
-            player1_stats[2] += 1
-            item_locations[0][0] = random.randint(50, 750)
-            item_locations[0][1] = random.randint(50, 550)
-            item_locations[1][0] = random.randint(50, 750)
-            item_locations[1][1] = random.randint(50, 550)
-            speed_up.play()
+            if playa.colliderect(item):
+                flip = random.randint(0, 1)
+                if flip == 0:
+                    player1_stats[2] += 1
+                    speed_up.play()
+                elif flip == 1 and player1_stats[2] >= 2:
+                    player1_stats[2] -= 1
+                    speed_down.play()
+                
+                item_locations[0] = shuffle_location()
+                item_locations[1] = shuffle_location()
 
-        if playa.colliderect(i2):
-            if player1_stats[2] >= 2:
-                player1_stats[2] -= 1
-            if not multiplayer_mode:
-                if score >= 5:
-                    score -= 5
-            else:
-                if score1 >= 5:
-                    score1 -= 5
+            if multiplayer_mode:
+                if playa1.colliderect(item):
+                    flip = random.randint(0, 1)
+                    if flip == 0:
+                        player2_stats[2] += 1
+                        speed_up.play()
+                    elif flip == 1 and player2_stats[2] >= 2:
+                        player2_stats[2] -= 1
+                        speed_down.play()
+                    
+                    item_locations[0] = shuffle_location()
+                    item_locations[1] = shuffle_location()
 
-            item_locations[0][0] = random.randint(50, 750)
-            item_locations[0][1] = random.randint(50, 550)
-            item_locations[1][0] = random.randint(50, 750)
-            item_locations[1][1] = random.randint(50, 550)
-            speed_down.play()
 
-        if multiplayer_mode:
-            if playa1.colliderect(i1):
-                player2_stats[2] += 1
-                item_locations[0][0] = random.randint(50, 750)
-                item_locations[0][1] = random.randint(50, 550)
-                item_locations[1][0] = random.randint(50, 750)
-                item_locations[1][1] = random.randint(50, 550)
-                speed_up.play()
-            if playa1.colliderect(i2):
-                if player2_stats[2] >= 2:
-                    player2_stats[2] -= 1
-                elif score2 >= 5:
-                    score2 -= 5
-                item_locations[0][0] = random.randint(50, 750)
-                item_locations[0][1] = random.randint(50, 550)
-                item_locations[1][0] = random.randint(50, 750)
-                item_locations[1][1] = random.randint(50, 550)
-                speed_down.play()
 
         pygame.display.update()
         clock.tick(FPS)
