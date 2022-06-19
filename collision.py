@@ -17,18 +17,16 @@ colors = {
     "green": (86, 188, 138),
     "purple": (167, 125, 194),
     "white": (246, 246, 246),
-    "black": (29, 24, 24)
+    "black": (29, 24, 24),
 }
 
 confirm = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/impact.wav"))
 speed_up = pygame.mixer.Sound(
-    os.path.join(
-        sys.path[0],
-        "Sound/MENU A_Select.wav"))
+    os.path.join(sys.path[0], "Sound/MENU A_Select.wav")
+)
 speed_down = pygame.mixer.Sound(
-    os.path.join(
-        sys.path[0],
-        "Sound/MENU A - Back.wav"))
+    os.path.join(sys.path[0], "Sound/MENU A - Back.wav")
+)
 points = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU_Pick.wav"))
 lose = pygame.mixer.Sound(os.path.join(sys.path[0], "Sound/MENU B_Back.wav"))
 
@@ -53,7 +51,7 @@ def player_movement(player, stats, block_size) -> list:
     current_stats = stats
     controls = {
         1: [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN],
-        2: [pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s]
+        2: [pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s],
     }
     keys = pygame.key.get_pressed()
     if keys[controls[player][0]]:
@@ -132,9 +130,9 @@ def game_menu():
 
         window.fill(colors["white"])
         pygame.draw.rect(
-            window, colors["black"], [
-                posm_x, posm_y, block_size, block_size])
-        largeText = pygame.font.Font('freesansbold.ttf', 100)
+            window, colors["black"], [posm_x, posm_y, block_size, block_size]
+        )
+        largeText = pygame.font.Font("freesansbold.ttf", 100)
         TextSurf, TextRect = text_objects("Collision", largeText)
         TextRect.center = (int(window_size[0] / 2), int(window_size[1] / 2))
         window.blit(TextSurf, TextRect)
@@ -149,7 +147,8 @@ def game_menu():
             50,
             colors["green"],
             colors["yellow"],
-            game_loop)
+            game_loop,
+        )
         button(
             "2 Players",
             550,
@@ -158,7 +157,8 @@ def game_menu():
             50,
             colors["red"],
             colors["yellow"],
-            game_loop)
+            game_loop,
+        )
         pygame.display.update()
         clock.tick(60)
 
@@ -172,7 +172,7 @@ def game_loop(multiplayer_mode):
         2: [4, 4],
         3: [-2, -2],
         4: [-3, -3],
-        5: [-4, -4]
+        5: [-4, -4],
     }
     block_locations = {
         0: [400, 300],
@@ -180,17 +180,35 @@ def game_loop(multiplayer_mode):
         2: [500, 300],
         3: [100, 500],
         4: [300, 400],
-        5: [50, 200]
+        5: [50, 200],
     }
     point_locations = {
-        0: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)],
-        1: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)],
-        2: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)],
-        3: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)]
+        0: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
+        1: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
+        2: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
+        3: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
     }
     item_locations = {
-        0: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)],
-        1: [random.randint(50, window_size[0] - 50), random.randint(50, window_size[1] - 50)]
+        0: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
+        1: [
+            random.randint(50, window_size[0] - 50),
+            random.randint(50, window_size[1] - 50),
+        ],
     }
 
     # x/y coordinates & speed for player 1 and 2
@@ -226,25 +244,50 @@ def game_loop(multiplayer_mode):
         window.fill(colors["black"])
 
         playa = pygame.draw.rect(
-            window, colors["yellow"], [
-                player1_stats[0], player1_stats[1], block_size / 2, block_size / 2])
+            window,
+            colors["yellow"],
+            [
+                player1_stats[0],
+                player1_stats[1],
+                block_size / 2,
+                block_size / 2,
+            ],
+        )
         if multiplayer_mode:
             playa1 = pygame.draw.rect(
-                window, colors["red"], [
-                    player2_stats[0], player2_stats[1], block_size / 2, block_size / 2])
+                window,
+                colors["red"],
+                [
+                    player2_stats[0],
+                    player2_stats[1],
+                    block_size / 2,
+                    block_size / 2,
+                ],
+            )
 
         for i in block_locations:
             block = pygame.draw.rect(
-                window, colors["white"], [
-                    block_locations[i][0], block_locations[i][1], block_size, block_size])
+                window,
+                colors["white"],
+                [
+                    block_locations[i][0],
+                    block_locations[i][1],
+                    block_size,
+                    block_size,
+                ],
+            )
 
             block_locations[i][0] += velocities[i][0]
             block_locations[i][1] += velocities[i][1]
-            if block_locations[i][0] + \
-                    block_size > window_size[0] or block_locations[i][0] < 0:
+            if (
+                block_locations[i][0] + block_size > window_size[0]
+                or block_locations[i][0] < 0
+            ):
                 velocities[i][0] = -velocities[i][0]
-            if block_locations[i][1] + \
-                    block_size > window_size[1] or block_locations[i][1] < 0:
+            if (
+                block_locations[i][1] + block_size > window_size[1]
+                or block_locations[i][1] < 0
+            ):
                 velocities[i][1] = -velocities[i][1]
 
             if not multiplayer_mode:
@@ -279,8 +322,15 @@ def game_loop(multiplayer_mode):
 
         for i in point_locations:
             point = pygame.draw.rect(
-                window, colors["green"], [
-                    point_locations[i][0], point_locations[i][1], block_size / 2, block_size / 2])
+                window,
+                colors["green"],
+                [
+                    point_locations[i][0],
+                    point_locations[i][1],
+                    block_size / 2,
+                    block_size / 2,
+                ],
+            )
 
             if not multiplayer_mode:
                 if playa.colliderect(point):
@@ -299,8 +349,15 @@ def game_loop(multiplayer_mode):
 
         for i in item_locations:
             item = pygame.draw.rect(
-                window, colors["purple"], [
-                    item_locations[i][0], item_locations[i][1], block_size / 2, block_size / 2])
+                window,
+                colors["purple"],
+                [
+                    item_locations[i][0],
+                    item_locations[i][1],
+                    block_size / 2,
+                    block_size / 2,
+                ],
+            )
 
             if playa.colliderect(item):
                 flip = random.randint(0, 1)
@@ -310,7 +367,7 @@ def game_loop(multiplayer_mode):
                 elif flip == 1 and player1_stats[2] >= 2:
                     player1_stats[2] -= 1
                     speed_down.play()
-                
+
                 item_locations[0] = shuffle_location()
                 item_locations[1] = shuffle_location()
 
@@ -323,39 +380,46 @@ def game_loop(multiplayer_mode):
                     elif flip == 1 and player2_stats[2] >= 2:
                         player2_stats[2] -= 1
                         speed_down.play()
-                    
+
                     item_locations[0] = shuffle_location()
                     item_locations[1] = shuffle_location()
-
-
 
         pygame.display.update()
         clock.tick(FPS)
 
         if not multiplayer_mode:
             label = myfont.render(
-                "Your score is: " + str(score), 1, colors["red"])
+                "Your score is: " + str(score), 1, colors["red"]
+            )
             window.blit(label, (10, 10))
             label = myfont.render(
-                "Current player1_stats[2]: " + str(player1_stats[2]), 1, colors["red"])
+                "Current player1_stats[2]: " + str(player1_stats[2]),
+                1,
+                colors["red"],
+            )
             window.blit(label, (670, 10))
             pygame.display.flip()
 
         else:
             label = myfont.render(
-                "Score Player 1: " +
-                str(score1),
-                1,
-                colors["yellow"])
+                "Score Player 1: " + str(score1), 1, colors["yellow"]
+            )
             window.blit(label, (10, 10))
             label = myfont.render(
-                "Score Player 2: " + str(score2), 1, colors["red"])
+                "Score Player 2: " + str(score2), 1, colors["red"]
+            )
             window.blit(label, (10, 25))
             label = myfont.render(
-                "player1_stats[2] Player 1: " + str(player1_stats[2]), 1, colors["yellow"])
+                "player1_stats[2] Player 1: " + str(player1_stats[2]),
+                1,
+                colors["yellow"],
+            )
             window.blit(label, (670, 10))
             label = myfont.render(
-                "player1_stats[2] Player 2: " + str(player2_stats[2]), 1, colors["red"])
+                "player1_stats[2] Player 2: " + str(player2_stats[2]),
+                1,
+                colors["red"],
+            )
             window.blit(label, (670, 25))
             pygame.display.flip()
 
@@ -375,17 +439,20 @@ def you_lose(is_multiplayer):
                 quit()
 
         window.fill(colors["white"])
-        largeText = pygame.font.Font('freesansbold.ttf', 40)
+        largeText = pygame.font.Font("freesansbold.ttf", 40)
         if not is_multiplayer:
             TextSurf, TextRect = text_objects(
-                "Your final score is " + str(score), largeText)
+                "Your final score is " + str(score), largeText
+            )
         else:
             if winner == 1:
                 TextSurf, TextRect = text_objects(
-                    "Player 1 wins with " + str(score) + " points", largeText)
+                    "Player 1 wins with " + str(score) + " points", largeText
+                )
             elif winner == 2:
                 TextSurf, TextRect = text_objects(
-                    "Player 2 wins with " + str(score) + " points", largeText)
+                    "Player 2 wins with " + str(score) + " points", largeText
+                )
             else:
                 TextSurf, TextRect = text_objects("Draw", largeText)
 
@@ -397,19 +464,18 @@ def you_lose(is_multiplayer):
         # button menu
         button(
             "Back",
-            window_size[0] /
-            2 -
-            50,
+            window_size[0] / 2 - 50,
             450,
             100,
             50,
             colors["yellow"],
             colors["green"],
-            game_menu)
+            game_menu,
+        )
 
         pygame.display.update()
         clock.tick(15)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     game_menu()
